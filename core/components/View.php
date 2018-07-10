@@ -38,7 +38,7 @@ class View
         extract($data);
 
         ob_start();
-        if(file_exists($this->relativelyPath($template))) {
+        if (file_exists($this->relativelyPath($template))) {
             include $this->relativelyPath($template);
         } else {
             echo sprintf("View %s not exists", $template . PHP_EXT);

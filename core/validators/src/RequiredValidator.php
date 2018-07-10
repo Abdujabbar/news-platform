@@ -5,11 +5,22 @@
  * Date: 7/10/18
  * Time: 4:26 PM
  */
+namespace validators\src;
 
-class RequiredValidator implements InterfaceValidator
+class RequiredValidator extends Validator
 {
+    protected $error;
     public function validate($input)
     {
-        return !is_null($input);
+        if (!is_null($input)) {
+            return true;
+        }
+
+        $this->error = "Value must be a string";
+        return false;
+    }
+    public function getError()
+    {
+        return $this->error;
     }
 }

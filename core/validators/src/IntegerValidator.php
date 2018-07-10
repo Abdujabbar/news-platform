@@ -5,32 +5,35 @@
  * Date: 7/10/18
  * Time: 4:35 PM
  */
+namespace validators\src;
 
-class IntegerValidator implements InterfaceValidator
+class IntegerValidator extends InterfaceValidator
 {
     public $min = 0;
     public $max = PHP_INT_MAX;
     protected $error;
 
-    public function validate($input) {
-        if(!is_int($input)) {
+    public function validate($input)
+    {
+        if (!is_int($input)) {
             $this->error = "Value must be an integer";
             return false;
         }
 
-        if($input < $this->min) {
+        if ($input < $this->min) {
             $this->error = sprintf("Value cannot be less than %d", $this->min);
             return false;
         }
 
-        if($input > $this->max) {
+        if ($input > $this->max) {
             $this->error = sprintf("Value cannot be greater than %d", $this->max);
             return false;
         }
         return true;
     }
 
-    public function between($min, $max) {
+    public function between($min, $max)
+    {
         $this->min = $min;
         $this->max = $max;
         return $this;

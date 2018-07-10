@@ -24,25 +24,37 @@ class ActiveRecord
 
     public function save($validate = false, $cleanErrors = true)
     {
-
     }
 
 
     public function validate($cleanErrors = true)
     {
-        if($cleanErrors) {
+        if ($cleanErrors) {
             $this->cleanErrors();
         }
 
-        if(!$this->beforeValidate())
+        if (!$this->beforeValidate()) {
             return false;
-
-
+        }
 
 
 
         return $this->afterValidate();
+    }
 
+
+    /**
+     * @param $attribute
+     * @param $message
+     * @throws \Exception
+     */
+    public function addError($attribute, $message)
+    {
+        if (property_exists($this, $attribute)) {
+            $this->errors[$attribute] = $message;
+        } else {
+            throw new \Exception(sprintf("Property %s doesn't exists", $attribute));
+        }
     }
 
     public function beforeValidate()
@@ -67,7 +79,4 @@ class ActiveRecord
     {
         $this->errors = [];
     }
-
-
-
 }
