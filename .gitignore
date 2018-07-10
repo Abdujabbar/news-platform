@@ -93,6 +93,10 @@ fabric.properties
 
 # Sonarlint plugin
 .idea/sonarlint
+.idea/misc.xml
+.idea/php.xml
+.php_cs.cache
 
+.idea/workspace.xml
 
 # End of https://www.gitignore.io/api/macos,phpstorm
