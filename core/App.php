@@ -8,8 +8,8 @@
 
 namespace core;
 
-use core\components\Request;
-use core\components\Response;
+use core\http\Request;
+use core\http\Response;
 
 final class App
 {

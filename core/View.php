@@ -6,7 +6,7 @@
  * Time: 3:05 PM
  */
 
-namespace core\components;
+namespace core;
 
 class View
 {

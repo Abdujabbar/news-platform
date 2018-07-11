@@ -6,7 +6,7 @@
  * Time: 3:05 PM
  */
 
-namespace core\components;
+namespace core;
 
 class Controller
 {
@@ -20,7 +20,9 @@ class Controller
 
     public function render($template, $data = [])
     {
-        $controller = strtolower(str_replace(CONTROLLER_SUFFIX, "", (new \ReflectionClass($this))->getShortName()));
+        $controller = strtolower(
+            str_replace(CONTROLLER_SUFFIX, "", (new \ReflectionClass($this))->getShortName())
+        );
         $this->view->render($controller . DIRECTORY_SEPARATOR . $template, $data);
     }
 

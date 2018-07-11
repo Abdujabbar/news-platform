@@ -7,7 +7,7 @@
  */
 namespace controllers;
 
-use core\components\Controller;
+use core\Controller;
 
 class MainController extends Controller
 {

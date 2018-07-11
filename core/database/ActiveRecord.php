@@ -6,7 +6,7 @@
  * Time: 3:05 PM
  */
 
-namespace core\components;
+namespace core;
 
 class ActiveRecord
 {
@@ -78,5 +78,15 @@ class ActiveRecord
     public function cleanErrors()
     {
         $this->errors = [];
+    }
+
+
+
+    public function findByCondition($condition = []) {
+
+    }
+
+    public function findOne($pk = 0) {
+
     }
 }

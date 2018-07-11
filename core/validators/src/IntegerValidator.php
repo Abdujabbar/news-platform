@@ -7,7 +7,7 @@
  */
 namespace validators\src;
 
-class IntegerValidator extends InterfaceValidator
+class IntegerValidator extends Validator
 {
     public $min = 0;
     public $max = PHP_INT_MAX;

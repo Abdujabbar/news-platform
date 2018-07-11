@@ -6,7 +6,7 @@
  * Time: 3:16 PM
  */
 
-namespace core\components;
+namespace core\http;
 
 class Response
 {
