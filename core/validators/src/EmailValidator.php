@@ -8,14 +8,13 @@
 
 namespace validators\src;
 
-
 class EmailValidator extends Validator
 {
     protected $error = false;
 
     public function validate($input)
     {
-        if(!filter_var($input, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($input, FILTER_VALIDATE_EMAIL)) {
             $this->error = "Value must be an email";
             return false;
         }

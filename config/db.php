@@ -6,7 +6,7 @@
  * Time: 11:35 AM
  */
 return [
-    'dsn' => 'host=localhost;dbname=news-platform',
+    'dsn' => 'mysql:host=newsplatformdb;dbname=newsplatformdb',
     'user' => 'root',
-    'password' => 1234567
+    'password' => 2211141
 ];

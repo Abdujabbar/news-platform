@@ -31,6 +31,9 @@ class ValidateEntity
         foreach ($rules as $rule) {
             if (is_array($rule[0])) {
             } else {
+                /**
+                 * @var $validatorClass Validator
+                 */
                 $validatorClass = ucfirst($rule[1]) . "Validator";
                 if (class_exists($validatorClass)) {
                     $validatorObject = new $validatorClass();

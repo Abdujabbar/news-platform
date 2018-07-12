@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db_mysql:
+    image: mysql:5.6
+    container_name: "newsplatformdb"
+    ports:
+      - "3306:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=2211141"
+      - "MYSQL_DATABASE=newsplatformdb"
+
+  web_php:
+    image: phpnewsplatform
+    volumes:
+      - ./:/app
+    ports:
+      - '8000:80'
+    depends_on:
+      - db_mysql
+

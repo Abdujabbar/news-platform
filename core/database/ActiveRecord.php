@@ -6,7 +6,7 @@
  * Time: 3:05 PM
  */
 
-namespace core;
+namespace core\database;
 
 class ActiveRecord
 {
@@ -82,11 +82,11 @@ class ActiveRecord
 
 
 
-    public function findByCondition($condition = []) {
-
+    public function findByCondition($condition = [])
+    {
     }
 
-    public function findOne($pk = 0) {
-
+    public function findOne($pk = 0)
+    {
     }
 }
