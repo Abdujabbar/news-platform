@@ -25,10 +25,10 @@ class ValidateAR
             $validatorClass = __NAMESPACE__ . "\\" .  ucfirst($rule[1]) . "Validator";
             if (is_array($rule[0])) {
                 foreach($rule[0] as $r) {
-                    $this->validateAttribute($entity, $r, $validatorClass);
+                    $this->validateAttribute($entity, $r, $validatorClass, array_slice($rule, 2));
                 }
             } else {
-                $this->validateAttribute($entity, $rule[0], $validatorClass);
+                $this->validateAttribute($entity, $rule[0], $validatorClass, array_slice($rule, 2));
             }
         }
     }
@@ -38,9 +38,9 @@ class ValidateAR
      * @param $attribute
      * @param $validatorClass
      */
-    public function validateAttribute($entity, $attribute, $validatorClass) {
+    public function validateAttribute($entity, $attribute, $validatorClass, $validatorOptions = []) {
         if (class_exists($validatorClass)) {
-            $validatorObject = new $validatorClass();
+            $validatorObject = new $validatorClass($validatorOptions);
             if (!$validatorObject->validate($entity->{$attribute})) {
                 $entity->addError($attribute, $attribute . ": " . $validatorObject->getError());
             }

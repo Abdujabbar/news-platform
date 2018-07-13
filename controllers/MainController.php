@@ -16,7 +16,6 @@ class MainController extends Controller
     {
 
         $post = new Posts();
-
         if($post->validate()) {
             echo "valid";
         } else {
