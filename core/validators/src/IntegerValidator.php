@@ -5,7 +5,7 @@
  * Date: 7/10/18
  * Time: 4:35 PM
  */
-namespace validators\src;
+namespace core\validators\src;
 
 class IntegerValidator extends Validator
 {

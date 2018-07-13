@@ -5,7 +5,7 @@
  * Date: 7/10/18
  * Time: 4:26 PM
  */
-namespace validators\src;
+namespace core\validators\src;
 
 class RequiredValidator extends Validator
 {

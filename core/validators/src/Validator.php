@@ -5,7 +5,7 @@
  * Date: 7/10/18
  * Time: 4:25 PM
  */
-namespace validators\src;
+namespace core\validators\src;
 
 abstract class Validator
 {

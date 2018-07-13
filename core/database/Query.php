@@ -13,7 +13,7 @@ use core\Configs;
 class Query
 {
     private $connection = null;
-    private $query = "";
+    private $queryString = "";
 
     protected $joinTypes = [
         "join" => "INNER JOIN",
@@ -26,6 +26,7 @@ class Query
      */
     protected $statement = null;
     protected $params = [];
+
     public function __construct()
     {
         $dbParams = Configs::getInstance()->db;
@@ -38,14 +39,10 @@ class Query
     }
 
 
-
-
-
     public function getConnection()
     {
         return $this->connection;
     }
-
 
 
     public function select($columns)
@@ -53,20 +50,20 @@ class Query
         if (is_array($columns)) {
             $columns = implode(",", $columns);
         }
-        $this->query .= " SELECT {$columns} FROM ";
+        $this->queryString .= " SELECT {$columns} FROM ";
         return $this;
     }
 
     public function from($table)
     {
-        $this->query .= "{$table}";
+        $this->queryString .= "{$table}";
         return $this;
     }
 
     public function join($type = "join", $table, $condition)
     {
         if (!empty($this->joinTypes[$type])) {
-            $this->query .= "{$this->joinTypes[$type]} {:$table} {:$condition}";
+            $this->queryString .= "{$this->joinTypes[$type]} {:$table} {:$condition}";
             $this->params[":{$table}"] = $table;
             $this->params[":{$condition}"] = $condition;
         } else {
@@ -88,14 +85,14 @@ class Query
             list($column, $operator, $input) = $condition;
             $whereCondition .= $this->andWhere($column, $operator, $input);
         }
-        $this->query .= " WHERE " . ltrim($whereCondition, " AND ");
+        $this->queryString .= " WHERE " . ltrim($whereCondition, " AND ");
         return $this;
     }
 
     public function buildStatement()
     {
         if (!$this->statement) {
-            $this->statement = $this->connection->prepare($this->query);
+            $this->statement = $this->connection->prepare($this->queryString);
         }
     }
 
@@ -111,7 +108,7 @@ class Query
 
     public function prepareQuery()
     {
-        $this->statement = $this->connection->prepare($this->query);
+        $this->statement = $this->connection->prepare($this->queryString);
     }
 
     public function getStatement()
@@ -125,7 +122,7 @@ class Query
         $this->buildStatement();
         $this->bindParams();
         $this->getStatement()->execute();
-        if($this->getStatement()->errorCode() == 0) {
+        if ($this->getStatement()->errorCode() == 0) {
             return $this->getStatement()->fetch($fetchType);
         }
 
@@ -138,7 +135,7 @@ class Query
         $this->bindParams();
         $this->getStatement()->execute();
 
-        if($this->getStatement()->errorCode() == 0) {
+        if ($this->getStatement()->errorCode() == 0) {
             return $this->getStatement()->fetchAll($fetchType);
         }
         throw new \PDOException($this->getStatement()->errorInfo()[2]);
@@ -147,7 +144,7 @@ class Query
 
     public function toSql()
     {
-        return $this->query;
+        return $this->queryString;
     }
 
     public function getTables()
@@ -176,22 +173,22 @@ class Query
     public function insert($table = "", $data = [])
     {
         if (count($data) === 0) {
-            throw new \PDOException("data cannot be empty!");
+            throw new \PDOException(sprintf("data cannot be empty! line: %s, file: %s", __LINE__, __FILE__));
         }
 
-        $this->query = sprintf(
+        $this->queryString = sprintf(
             "INSERT INTO {$table} (%s) VALUES(%s)",
-                        implode(",", array_keys($data)),
-                        implode(
-                            ",",
-                            array_map(
-                            function ($input) {
-                                return ":{$input}";
-                            },
-                        array_keys($data)
-                            )
-                        )
-                    );
+            implode(",", array_keys($data)),
+            implode(
+                ",",
+                array_map(
+                    function ($input) {
+                        return ":{$input}";
+                    },
+                    array_keys($data)
+                )
+            )
+        );
 
 
         foreach ($data as $column => $input) {
@@ -203,13 +200,11 @@ class Query
         $this->bindParams();
 
 
-
-        if(!$this->getStatement()->execute()) {
+        if (!$this->getStatement()->execute()) {
             throw new \PDOException($this->getStatement()->errorInfo()[2]);
         }
         return true;
     }
-
 
 
     public function update($table, $data = [], $where = [])
@@ -226,7 +221,7 @@ class Query
         $this->buildStatement();
 
 
-        if(!$this->getStatement()->execute($this->params))
+        if (!$this->getStatement()->execute($this->params))
             throw new \PDOException($this->getStatement()->errorInfo()[2]);
 
         return true;

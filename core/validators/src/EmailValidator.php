@@ -6,7 +6,7 @@
  * Time: 4:24 PM
  */
 
-namespace validators\src;
+namespace core\validators\src;
 
 class EmailValidator extends Validator
 {
