@@ -80,7 +80,7 @@ class Query
 
     public function where($conditions = [])
     {
-        if(count($conditions)) {
+        if (count($conditions)) {
             $whereCondition = " ";
             foreach ($conditions as $condition) {
                 list($column, $operator, $input) = $condition;
@@ -223,8 +223,9 @@ class Query
         $this->buildStatement();
 
 
-        if (!$this->getStatement()->execute($this->params))
+        if (!$this->getStatement()->execute($this->params)) {
             throw new \PDOException($this->getStatement()->errorInfo()[2]);
+        }
 
         return true;
     }

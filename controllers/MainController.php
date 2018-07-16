@@ -17,17 +17,16 @@ class MainController extends Controller
         $this->render("index", ['welcome' => 'Hi!']);
     }
 
-    public function actionLogin() {
-        if(App::getInstance()->getAuth()->isGuest()) {
+    public function actionLogin()
+    {
+        if (App::getInstance()->getAuth()->isGuest()) {
             echo "You already logged in";
         } else {
             $this->redirect("/");
         }
-
-
     }
 
-    public function actionLogout() {
-
+    public function actionLogout()
+    {
     }
 }

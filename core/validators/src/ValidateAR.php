@@ -24,7 +24,7 @@ class ValidateAR
         foreach ($rules as $rule) {
             $validatorClass = __NAMESPACE__ . "\\" .  ucfirst($rule[1]) . "Validator";
             if (is_array($rule[0])) {
-                foreach($rule[0] as $r) {
+                foreach ($rule[0] as $r) {
                     $this->validateAttribute($entity, $r, $validatorClass, array_slice($rule, 2));
                 }
             } else {
@@ -38,7 +38,8 @@ class ValidateAR
      * @param $attribute
      * @param $validatorClass
      */
-    public function validateAttribute($entity, $attribute, $validatorClass, $validatorOptions = []) {
+    public function validateAttribute($entity, $attribute, $validatorClass, $validatorOptions = [])
+    {
         if (class_exists($validatorClass)) {
             $validatorObject = new $validatorClass($validatorOptions);
             if (!$validatorObject->validate($entity->{$attribute})) {

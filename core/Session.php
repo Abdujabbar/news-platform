@@ -8,7 +8,6 @@
 
 namespace core;
 
-
 class Session
 {
     protected static $instance;
@@ -17,7 +16,6 @@ class Session
     private function __construct()
     {
         session_start();
-
     }
 
     private function __sleep()
@@ -37,35 +35,40 @@ class Session
 
     public static function getInstance()
     {
-        if(!self::$instance) {
+        if (!self::$instance) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
 
-    public function setFlash($name, $message) {
+    public function setFlash($name, $message)
+    {
         $_SESSION["flash_" . $name] = $message;
     }
 
-    public function getFlash($name) {
+    public function getFlash($name)
+    {
         $flash = $_SESSION["flash_" . $name];
-        if(!empty($flash)) {
+        if (!empty($flash)) {
             unset($_SESSION["flash_" . $name]);
         }
         return $flash;
     }
 
 
-    public function set($key, $input) {
+    public function set($key, $input)
+    {
         $_SESSION["session_" . $key] = $input;
     }
 
-    public function clear() {
+    public function clear()
+    {
         $_SESSION = [];
     }
 
-    public function get($key) {
+    public function get($key)
+    {
         return !empty($_SESSION["session_" . $key]) ? $_SESSION["session_" . $key] : null;
     }
 }

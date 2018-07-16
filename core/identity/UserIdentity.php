@@ -6,6 +6,7 @@
  * Time: 3:30 PM
  */
 namespace core\identity;
+
 class UserIdentity implements IdentityInterface
 {
     protected $options = [];
@@ -35,6 +36,4 @@ class UserIdentity implements IdentityInterface
         // TODO: Implement __toString() method.
         return serialize($this);
     }
-
-
 }

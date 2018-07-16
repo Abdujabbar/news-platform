@@ -28,7 +28,8 @@ final class App
         $this->authManager = new AuthManager();
     }
 
-    public function getAuth() {
+    public function getAuth()
+    {
         return $this->authManager;
     }
 

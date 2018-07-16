@@ -8,7 +8,6 @@
 
 namespace core\identity;
 
-
 use core\Session;
 
 class AuthManager
@@ -17,31 +16,32 @@ class AuthManager
     public function __construct()
     {
         $this->_user = Session::getInstance()->get('user');
-
-
     }
 
-    public function login(User $user) {
-           if(!$this->isGuest()) {
-               throw new \Exception("You are already logged in.");
-           }
-           Session::getInstance()->set('user', $user);
-           $this->_user = $user;
-           return $user->getId();
+    public function login(User $user)
+    {
+        if (!$this->isGuest()) {
+            throw new \Exception("You are already logged in.");
+        }
+        Session::getInstance()->set('user', $user);
+        $this->_user = $user;
+        return $user->getId();
     }
 
 
-    public function logout() {
+    public function logout()
+    {
         Session::getInstance()->clear();
     }
 
 
-    public function isGuest() {
+    public function isGuest()
+    {
         return $this->_user === null;
     }
 
-    public function getUser() {
+    public function getUser()
+    {
         return Session::getInstance()->get('user');
     }
-
 }

@@ -65,13 +65,14 @@ class ActiveRecord
 
     public function __get($name)
     {
-        return $this->fillable[$name] ? $this->{$name} : NULL;
+        return $this->fillable[$name] ? $this->{$name} : null;
     }
 
     public function __set($name, $value)
     {
-        if($this->isFillable($name))
+        if ($this->isFillable($name)) {
             $this->{$name} = $value;
+        }
     }
 
     public function isFillable($attribute)
@@ -128,8 +129,9 @@ class ActiveRecord
      */
     public function addError($attribute, $message)
     {
-        if ($this->isFillable($attribute))
+        if ($this->isFillable($attribute)) {
             $this->errors[$attribute] = $message;
+        }
     }
 
     public function beforeValidate()
@@ -206,6 +208,4 @@ class ActiveRecord
 
         return $class->rawToModel((array)$object);
     }
-
-
 }

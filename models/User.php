@@ -8,8 +8,6 @@
 
 namespace models;
 
-
 class User
 {
-
 }

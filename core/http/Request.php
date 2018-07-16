@@ -22,7 +22,6 @@ class Request
         $pathInfo = trim($_SERVER['PATH_INFO'], "/");
 
         if (!empty($pathInfo)) {
-
             $route = explode("/", $pathInfo);
             if (count($route)) {
                 $defaultController = array_shift($route);

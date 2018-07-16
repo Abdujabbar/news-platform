@@ -6,6 +6,8 @@
  * Time: 3:29 PM
  */
 namespace core\identity;
-interface IdentityInterface {
+
+interface IdentityInterface
+{
     public function getId();
 }

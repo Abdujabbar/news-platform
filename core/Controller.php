@@ -32,7 +32,8 @@ class Controller
     }
 
 
-    public function redirect($url) {
+    public function redirect($url)
+    {
         header("Location:" . $url, true, 301);
     }
 }

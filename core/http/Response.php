@@ -39,11 +39,9 @@ class Response
             self::setStatus(404);
 
             $view->render("errors/notfound", ['message' =>  $message]);
-
         } catch (\Exception $e) {
             echo $e->getMessage();
             die();
         }
-
     }
 }
