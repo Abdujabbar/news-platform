@@ -7,24 +7,27 @@
  */
 namespace controllers;
 
+use core\App;
 use core\Controller;
-use models\Posts;
 
 class MainController extends Controller
 {
     public function actionIndex()
     {
+        $this->render("index", ['welcome' => 'Hi!']);
+    }
 
-        $post = new Posts();
-        if($post->validate()) {
-            echo "valid";
+    public function actionLogin() {
+        if(App::getInstance()->getAuth()->isGuest()) {
+            echo "You already logged in";
         } else {
-            var_dump($post->getErrors());
+            $this->redirect("/");
         }
 
-//        $postInstance = $post->findByCondition('id', '=', 3);
 
-//        var_dump($postInstance->content);
-//        $this->render("index", ["welcome" => "You are welcome to index page!"]);
+    }
+
+    public function actionLogout() {
+
     }
 }

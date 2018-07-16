@@ -8,6 +8,8 @@
 
 namespace core\http;
 
+use core\View;
+
 class Response
 {
     public static function setHeader($header)
@@ -32,12 +34,16 @@ class Response
 
     public static function NotFound($message = '')
     {
+        $view = new View();
         try {
             self::setStatus(404);
+
+            $view->render("errors/notfound", ['message' =>  $message]);
+
         } catch (\Exception $e) {
             echo $e->getMessage();
             die();
         }
-        echo $message;
+
     }
 }

@@ -19,8 +19,11 @@ class Request
     {
         $defaultController = "main";
         $defaultAction = "index";
-        if (!empty($_SERVER['PATH_INFO'])) {
-            $route = explode("/", trim($_SERVER["PATH_INFO"], "/"));
+        $pathInfo = trim($_SERVER['PATH_INFO'], "/");
+
+        if (!empty($pathInfo)) {
+
+            $route = explode("/", $pathInfo);
             if (count($route)) {
                 $defaultController = array_shift($route);
             }

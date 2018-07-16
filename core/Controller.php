@@ -30,4 +30,9 @@ class Controller
     {
         $this->view->setLayout(false);
     }
+
+
+    public function redirect($url) {
+        header("Location:" . $url, true, 301);
+    }
 }

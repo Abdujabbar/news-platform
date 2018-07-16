@@ -175,33 +175,36 @@ class ActiveRecord
         return (new static())->fillOut($array);
     }
 
-    public function findOne($pk = 0)
+    public static function findOne($pk = 0)
     {
-        $object = $this->query->select("*")->from($this->getTable())->where([[$this->getPrimaryKey(), '=', $pk]])->one();
-        return $this->rawToModel((array)$object);
+        $class = (new static());
+        $object = $class->query->select("*")->from($class->getTable())->where([[$class->getPrimaryKey(), '=', $pk]])->one();
+        return $class->rawToModel((array)$object);
     }
 
-    public function findByConditions($conditions = [])
+    public static function findByConditions($conditions = [])
     {
-        $objects = $this->query->select("*")->from($this->getTable())->where($conditions)->all();
+        $class = (new static());
+        $objects = $class->query->select("*")->from($class->getTable())->where($conditions)->all();
         $models = [];
 
         foreach ($objects as $object) {
-            $models = $this->rawToModel((array)$object);
+            $models[] = $class->rawToModel((array)$object);
         }
 
         return $models;
     }
 
-    public function findByCondition($column, $operation, $value)
+    public static function findByCondition($column, $operation, $value)
     {
-        $object = $this->query->select("*")->from($this->getTable())->where([[
+        $class = (new static());
+        $object = $class->query->select("*")->from($class->getTable())->where([[
             $column,
             $operation,
             $value]
         ])->one();
 
-        return $this->rawToModel((array)$object);
+        return $class->rawToModel((array)$object);
     }
 
 

@@ -10,6 +10,7 @@ namespace core;
 
 use core\http\Request;
 use core\http\Response;
+use core\identity\AuthManager;
 
 final class App
 {
@@ -17,15 +18,21 @@ final class App
     protected $configs;
     protected $request;
     protected $response;
+    protected $authManager;
 
     private function __construct(Configs $configs)
     {
         $this->request = new Request();
         $this->response = new Response();
         $this->configs = $configs;
+        $this->authManager = new AuthManager();
     }
 
-    public static function getInstance($configs)
+    public function getAuth() {
+        return $this->authManager;
+    }
+
+    public static function getInstance(Configs $configs = null)
     {
         if (!self::$instance) {
             self::$instance = new self($configs);
@@ -67,7 +74,7 @@ final class App
                 Response::NotFound(sprintf("Action %s not exists in controller %s", $action, $class));
             }
         } else {
-            Response::NotFound("Page not found");
+            Response::NotFound(sprintf("Controller %s not exists", $class));
         }
     }
 }

@@ -80,12 +80,14 @@ class Query
 
     public function where($conditions = [])
     {
-        $whereCondition = " ";
-        foreach ($conditions as $condition) {
-            list($column, $operator, $input) = $condition;
-            $whereCondition .= $this->andWhere($column, $operator, $input);
+        if(count($conditions)) {
+            $whereCondition = " ";
+            foreach ($conditions as $condition) {
+                list($column, $operator, $input) = $condition;
+                $whereCondition .= $this->andWhere($column, $operator, $input);
+            }
+            $this->queryString .= " WHERE " . ltrim($whereCondition, " AND ");
         }
-        $this->queryString .= " WHERE " . ltrim($whereCondition, " AND ");
         return $this;
     }
 
