@@ -14,16 +14,19 @@ class MainController extends Controller
 {
     public function actionIndex()
     {
-        $this->render("index", ['welcome' => 'Hi!']);
+        $this->render(
+            "index",
+            [   'welcome' =>
+                'Hi ' . (
+                App::getInstance()->getAuth()->isGuest() ?
+                "Guest" :
+                App::getInstance()->getAuth()->getUser()->getId()
+                )]
+        );
     }
 
     public function actionLogin()
     {
-        if (App::getInstance()->getAuth()->isGuest()) {
-            echo "You already logged in";
-        } else {
-            $this->redirect("/");
-        }
     }
 
     public function actionLogout()

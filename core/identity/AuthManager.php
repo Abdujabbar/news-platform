@@ -12,20 +12,32 @@ use core\Session;
 
 class AuthManager
 {
+    /**
+     * @var $_user IdentityInterface
+     */
     protected $_user;
+
     public function __construct()
     {
         $this->_user = Session::getInstance()->get('user');
     }
 
-    public function login(User $user)
+    public function login(IdentityInterface $user)
     {
-        if (!$this->isGuest()) {
-            throw new \Exception("You are already logged in.");
-        }
         Session::getInstance()->set('user', $user);
-        $this->_user = $user;
+        $this->setUser($user);
         return $user->getId();
+    }
+
+
+    public function setUser(IdentityInterface $user)
+    {
+        $this->_user = $user;
+    }
+
+    public function getUser()
+    {
+        return $this->_user;
     }
 
 
@@ -38,10 +50,5 @@ class AuthManager
     public function isGuest()
     {
         return $this->_user === null;
-    }
-
-    public function getUser()
-    {
-        return Session::getInstance()->get('user');
     }
 }

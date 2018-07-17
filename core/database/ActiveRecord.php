@@ -19,17 +19,12 @@ class ActiveRecord
     protected $errors = [];
 
     protected $fillable = [];
-    /**
-     * @var $query Query
-     */
-    private $query;
 
     public function __construct($configs = [])
     {
         foreach ($configs as $column => $value) {
             $this->$column = $value;
         }
-        $this->query = new Query();
     }
 
 
@@ -93,16 +88,19 @@ class ActiveRecord
                 }
             }
             if ($this->{$this->primaryKey}) {
-                return $this->query->update($this->getTable(), $fields, [['id', '=', $this->{$this->primaryKey}]]);
+                return self::find()->update($this->getTable(), $fields, [['id', '=', $this->{$this->primaryKey}]]);
             } else {
-                return $this->query->insert($this->getTable(), $fields);
+                return self::find()->insert($this->getTable(), $fields);
             }
         }
 
         return false;
     }
 
-
+    /**
+     * @param bool $cleanErrors
+     * @return bool
+     */
     public function validate($cleanErrors = true)
     {
         if ($cleanErrors) {
@@ -177,35 +175,54 @@ class ActiveRecord
         return (new static())->fillOut($array);
     }
 
+    public static function find()
+    {
+        return new Query();
+    }
+
     public static function findOne($pk = 0)
     {
         $class = (new static());
-        $object = $class->query->select("*")->from($class->getTable())->where([[$class->getPrimaryKey(), '=', $pk]])->one();
+        $object = self::find()->select("*")
+                    ->from($class->getTable())
+                    ->where([[$class->getPrimaryKey(), '=', $pk]])
+                    ->one();
         return $class->rawToModel((array)$object);
     }
 
-    public static function findByConditions($conditions = [])
+    public static function findByConditions($conditions = [], $limit = 10, $offset = 0)
     {
         $class = (new static());
-        $objects = $class->query->select("*")->from($class->getTable())->where($conditions)->all();
+        $objects = self::find()
+                    ->select("*")
+                    ->from($class->getTable())
+                    ->where($conditions)
+                    ->limit($limit, $offset)
+                    ->all();
+        return $class->objectsToModels($objects);
+    }
+
+    public function objectsToModels($objects = [])
+    {
         $models = [];
 
         foreach ($objects as $object) {
-            $models[] = $class->rawToModel((array)$object);
+            $models[] = $this->rawToModel((array)$object);
         }
 
         return $models;
     }
 
-    public static function findByCondition($column, $operation, $value)
+    public static function findByCondition($column, $operation, $value, $limit = 10, $offset = 0)
     {
         $class = (new static());
-        $object = $class->query->select("*")->from($class->getTable())->where([[
+        $objects = self::find()->select("*")->from($class->getTable())->where([[
             $column,
             $operation,
             $value]
-        ])->one();
+        ])->limit($limit, $offset)
+            ->all();
 
-        return $class->rawToModel((array)$object);
+        return $class->objectsToModels($objects);
     }
 }

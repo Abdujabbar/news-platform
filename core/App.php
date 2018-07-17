@@ -28,11 +28,6 @@ final class App
         $this->authManager = new AuthManager();
     }
 
-    public function getAuth()
-    {
-        return $this->authManager;
-    }
-
     public static function getInstance(Configs $configs = null)
     {
         if (!self::$instance) {
@@ -41,6 +36,20 @@ final class App
         return self::$instance;
     }
 
+    public function getAuth()
+    {
+        return $this->authManager;
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
+    }
 
     public function setConfig(Configs $config)
     {
@@ -63,6 +72,9 @@ final class App
         // TODO: Implement __clone() method.
     }
 
+    /**
+     * @method run Runs the application on requests
+     */
     public function run()
     {
         extract(Request::parseRoute());

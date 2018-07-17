@@ -10,4 +10,5 @@ namespace core\identity;
 interface IdentityInterface
 {
     public function getId();
+    public function setId($id);
 }

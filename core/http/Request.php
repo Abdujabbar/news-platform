@@ -37,4 +37,24 @@ class Request
             'action' => ACTION_PREFIX . ucfirst($defaultAction),
         ];
     }
+
+    public function get($name)
+    {
+        return array_key_exists($name, $_GET) ? $_GET[$name] : null;
+    }
+
+    public function post($name)
+    {
+        return array_key_exists($name, $_POST) ? $_POST[$name] : null;
+    }
+
+    public function getParams()
+    {
+        return $_GET;
+    }
+
+    public function getPost()
+    {
+        return $_POST;
+    }
 }

@@ -36,4 +36,9 @@ class Controller
     {
         header("Location:" . $url, true, 301);
     }
+
+    public function getParam($name)
+    {
+//        return App::getInstance()->get
+    }
 }

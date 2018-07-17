@@ -60,6 +60,14 @@ class Query
         return $this;
     }
 
+    public function limit($limit = 10, $offset = 0)
+    {
+        $this->queryString .= " LIMIT :limit OFFSET :offset";
+        $this->params[":offset"] = $offset;
+        $this->params[":limit"] = $limit;
+        return $this;
+    }
+
     public function join($type = "join", $table, $condition)
     {
         if (!empty($this->joinTypes[$type])) {
@@ -103,7 +111,12 @@ class Query
     {
         if ($this->statement) {
             foreach ($this->params as $column => $input) {
-                $this->statement->bindParam($column, $input, \PDO::PARAM_STR);
+                if (is_numeric($input)) {
+                    $this->statement->bindValue($column, $input, \PDO::PARAM_INT);
+                    continue;
+                }
+
+                $this->statement->bindValue($column, $input);
             }
         }
     }
@@ -140,6 +153,8 @@ class Query
         if ($this->getStatement()->errorCode() == 0) {
             return $this->getStatement()->fetchAll($fetchType);
         }
+        var_dump($this->getStatement()->errorInfo());
+        die();
         throw new \PDOException($this->getStatement()->errorInfo()[2]);
     }
 
