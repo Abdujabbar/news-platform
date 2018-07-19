@@ -8,53 +8,44 @@
 
 namespace core\http;
 
+
+
+
 class Request
 {
-    public function __construct()
-    {
-    }
-
-
-    public static function parseRoute()
-    {
-        $defaultController = "main";
-        $defaultAction = "index";
-        $pathInfo = trim($_SERVER['PATH_INFO'], "/");
-
-        if (!empty($pathInfo)) {
-            $route = explode("/", $pathInfo);
-            if (count($route)) {
-                $defaultController = array_shift($route);
-            }
-
-            if (count($route)) {
-                $defaultAction = array_shift($route);
-            }
-        }
-
-        return [
-            'class' =>  ucfirst($defaultController) . CONTROLLER_SUFFIX,
-            'action' => ACTION_PREFIX . ucfirst($defaultAction),
-        ];
-    }
+    protected $queryParams = [];
+    protected $bodyParams = [];
 
     public function get($name)
     {
-        return array_key_exists($name, $_GET) ? $_GET[$name] : null;
+        return array_key_exists($name, $this->queryParams) ? $this->queryParams[$name] : null;
     }
 
     public function post($name)
     {
-        return array_key_exists($name, $_POST) ? $_POST[$name] : null;
+        return array_key_exists($name, $this->bodyParams) ? $this->bodyParams[$name] : null;
     }
 
-    public function getParams()
+    public function getQueryParams()
     {
-        return $_GET;
+        return $this->queryParams;
     }
 
-    public function getPost()
+    public function getBodyParams()
     {
-        return $_POST;
+        return $this->bodyParams;
+    }
+
+    public function withParsedBody($bodyParams = []) {
+        $class = clone $this;
+        $class->bodyParams = array_merge($class->bodyParams, $bodyParams);
+        return $class;
+    }
+
+
+    public function withQueryParams($queryParams = []) {
+        $class = clone $this;
+        $class->queryParams = array_merge($this->queryParams, $queryParams);
+        return $class;
     }
 }

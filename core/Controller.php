@@ -8,6 +8,8 @@
 
 namespace core;
 
+use core\http\Response;
+
 class Controller
 {
     protected $view;
@@ -39,6 +41,9 @@ class Controller
 
     public function getParam($name)
     {
-//        return App::getInstance()->get
+        return App::getInstance()->getRequest()->getQueryParams()[$name] ?? null;
     }
+
+
+
 }

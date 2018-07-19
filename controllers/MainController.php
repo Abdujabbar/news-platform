@@ -5,6 +5,7 @@
  * Date: 7/10/18
  * Time: 3:39 PM
  */
+
 namespace controllers;
 
 use core\App;
@@ -16,20 +17,10 @@ class MainController extends Controller
     {
         $this->render(
             "index",
-            [   'welcome' =>
+            ['welcome' =>
                 'Hi ' . (
-                App::getInstance()->getAuth()->isGuest() ?
-                "Guest" :
-                App::getInstance()->getAuth()->getUser()->getId()
+                    App::getInstance()->getRequest()->getQueryParams()['name'] ?? "Guest"
                 )]
         );
-    }
-
-    public function actionLogin()
-    {
-    }
-
-    public function actionLogout()
-    {
     }
 }

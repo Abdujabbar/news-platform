@@ -72,6 +72,7 @@ class ActiveRecord
 
     public function isFillable($attribute)
     {
+        if($attribute === $this->getPrimaryKey()) return true;
         return in_array($attribute, $this->fillable);
     }
 
@@ -159,7 +160,7 @@ class ActiveRecord
     {
         foreach ($attributes as $attribute => $value) {
             if ($attribute == $this->getPrimaryKey()) {
-                $this->$attribute = $value;
+                $this->{$this->getPrimaryKey()} = $value;
                 continue;
             }
             if ($this->isFillable($attribute)) {

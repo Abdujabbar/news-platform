@@ -8,7 +8,8 @@
 
 namespace core;
 
-use core\http\Request;
+use core\http\RequestFactory;
+use core\http\Router;
 use core\http\Response;
 use core\identity\AuthManager;
 
@@ -22,7 +23,7 @@ final class App
 
     private function __construct(Configs $configs)
     {
-        $this->request = new Request();
+        $this->request = RequestFactory::createFromGlobals();
         $this->response = new Response();
         $this->configs = $configs;
         $this->authManager = new AuthManager();
@@ -77,7 +78,7 @@ final class App
      */
     public function run()
     {
-        extract(Request::parseRoute());
+        extract(Router::parse());
         $className = "\controllers\\$class";
         if (class_exists($className)) {
             $classObject = new $className();

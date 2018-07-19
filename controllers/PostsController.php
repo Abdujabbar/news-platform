@@ -9,13 +9,16 @@
 namespace controllers;
 
 use core\Controller;
+use core\http\Response;
 use models\Posts;
 
 class PostsController extends Controller
 {
     public function actionIndex()
     {
-        $this->render('list', ['posts' => Posts::findByConditions()]);
+        $limit = $this->getParam("limit") ?? 10;
+        $offset = $this->getParam("offset") ?? 0;
+        Response::toJSON(['posts' => Posts::findByConditions([], $limit, $offset)]);
     }
 
 

@@ -5,7 +5,7 @@
  * Date: 7/10/18
  * Time: 3:19 PM
  */
-namespace core\formatter;
+namespace core\outer;
 
 class JSON
 {

@@ -8,12 +8,16 @@
 
 namespace core\http;
 
+use core\outer\JSON;
 use core\View;
 
 class Response
 {
-    public static function setHeader($header)
+    public static function setHeader($header = "")
     {
+        if(!is_string($header)) {
+            throw new \Exception(sprintf("Parameter header must be a string, received %d", gettype($header)));
+        }
         header($header);
     }
 
@@ -29,6 +33,7 @@ class Response
     public static function toJSON($data)
     {
         self::setHeader("Content-type: application/json");
+        self::setHeader("Connection: Keep-Alive");
         echo JSON::encode($data);
     }
 
